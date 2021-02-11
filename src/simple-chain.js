@@ -6,7 +6,6 @@ const chainMaker = {
     return this.chain.replace(/\D/gi, "").split("").length;
   },
   addLink(val = " ") {
-    if (typeof val !== "string") throw new CustomError("Not implemented");
     this.chain += this.chain ? `~~( ${val} )` : `( ${val} )`;
     return this;
   },

@@ -10,8 +10,6 @@ class VigenereCipheringMachine {
     this.ans = [];
   }
   encrypt(word, key) {
-    if (word === undefined || key === undefined)
-      throw new CustomError("THROWN");
     word = word.toUpperCase();
     key = key.toUpperCase();
     for (let i = 65; i <= 90; i++) {
@@ -92,9 +90,6 @@ class VigenereCipheringMachine {
       .toUpperCase();
   }
   decrypt(word, key) {
-    if (word === undefined || key === undefined)
-      throw new CustomError("THROWN");
-
     word = word.toUpperCase();
     key = key.toUpperCase();
 
