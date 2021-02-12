@@ -3,26 +3,36 @@ const CustomError = require("../extensions/custom-error");
 const chainMaker = {
   chain: "",
   getLength() {
-    return this.chain.replace(/\D/gi, "").split("").length;
+    return this.chain.split(/~~/).length;
   },
-  addLink(val = " ") {
+  addLink(val) {
     this.chain += this.chain ? `~~( ${val} )` : `( ${val} )`;
-    return this;
-  },
-  removeLink(val) {
-    if (typeof val !== "string") throw new CustomError("Not implemented");
-    this.chain = this.chain
-      .split(/~~/)
-      .filter((item, index) => index + 1 !== val)
-      .join("~~");
     return this;
   },
   reverseChain() {
     this.chain = this.chain.split(/~~/).reverse().join("~~");
     return this;
   },
+  removeLink(position) {
+    if (
+      typeof position !== "number" ||
+      position <= 0 ||
+      (position ^ 0) !== position ||
+      position > this.getLength()
+    ) {
+      throw new Error("THROWN");
+    } else {
+      this.chain = this.chain
+        .split(/~~/)
+        .filter((item, index) => index + 1 !== position)
+        .join("~~");
+      return this;
+    }
+  },
   finishChain() {
-    return this.chain;
+    const completedChain = this.chain;
+    this.chain = "";
+    return completedChain;
   },
 };
 module.exports = chainMaker;

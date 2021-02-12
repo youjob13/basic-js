@@ -1,8 +1,7 @@
 const CustomError = require("../extensions/custom-error");
-
 module.exports = class DepthCalculator {
   constructor() {
-    this.currentCounter = 0;
+    this.currentCounter = 1;
     this.counterArr = [];
   }
   calculateDepth(arr, firstCall = true) {
@@ -12,10 +11,8 @@ module.exports = class DepthCalculator {
         this.calculateDepth(arr[i], false);
       }
     }
-    if (firstCall) {
-      this.counterArr.push(this.currentCounter);
-      this.currentCounter = 1;
-    }
+    this.counterArr.push(this.currentCounter);
+    this.currentCounter = 1;
     return Math.max.apply(null, this.counterArr);
   }
 };
