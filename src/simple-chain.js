@@ -1,16 +1,16 @@
 const CustomError = require("../extensions/custom-error");
 
 const chainMaker = {
-  chain: "",
+  chain: [],
   getLength() {
-    return this.chain.split(/~~/).length;
+    return this.chain.length;
   },
-  addLink(val) {
-    this.chain += this.chain ? `~~( ${val} )` : `( ${val} )`;
+  addLink(val = " ") {
+    this.chain.push(`( ${String(val)} )`);
     return this;
   },
   reverseChain() {
-    this.chain = this.chain.split(/~~/).reverse().join("~~");
+    this.chain = this.chain.reverse();
     return this;
   },
   removeLink(position) {
@@ -21,17 +21,13 @@ const chainMaker = {
       position > this.getLength()
     ) {
       throw new Error("THROWN");
-    } else {
-      this.chain = this.chain
-        .split(/~~/)
-        .filter((item, index) => index + 1 !== position)
-        .join("~~");
-      return this;
     }
+    this.chain = this.chain.filter((item, index) => index + 1 !== position);
+    return this;
   },
   finishChain() {
-    const completedChain = this.chain;
-    this.chain = "";
+    const completedChain = this.chain.join("~~");
+    this.chain.length = 0;
     return completedChain;
   },
 };
