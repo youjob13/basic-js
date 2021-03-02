@@ -1,9 +1,8 @@
 const CustomError = require("../extensions/custom-error");
 
 module.exports = function transform(arr) {
-  let res = [...arr];
-  res.forEach((item, index, array) => {
-    if (item === "--discard-next") {
+  function a(str, index, array) {
+    if (str === "--discard-next") {
       if (index !== res.length - 1) {
         if (typeof res[index + 1] === "number") {
           res.splice(index + 1, 1);
@@ -12,7 +11,7 @@ module.exports = function transform(arr) {
         res.splice(index, 1);
       }
     }
-    if (item === "--double-prev") {
+    if (str === "--double-prev") {
       if (index !== 0) {
         if (typeof res[index - 1] === "number") {
           res.splice(index, 1, array[index - 1]);
@@ -21,7 +20,7 @@ module.exports = function transform(arr) {
         }
       }
     }
-    if (item === "--double-next") {
+    if (str === "--double-next") {
       if (index !== res.length - 1) {
         if (typeof res[index + 1] === "number") {
           res.splice(index, 1, array[index + 1]);
@@ -30,7 +29,7 @@ module.exports = function transform(arr) {
         }
       }
     }
-    if (item === "--discard-prev") {
+    if (str === "--discard-prev") {
       if (index !== 0) {
         if (typeof res[index - 1] === "number") {
           res.splice(index - 1, 1);
@@ -38,6 +37,18 @@ module.exports = function transform(arr) {
       } else {
         res.splice(index, 1);
       }
+    }
+  }
+
+  let res = [...arr];
+  res.forEach((item, index, array) => {
+    if (
+      item === "--double-next" ||
+      item === "--double-prev" ||
+      item === "--discard-next" ||
+      "--discard-prev"
+    ) {
+      a(item, index, array);
     }
   });
   return res.filter((item) => typeof item === "number");

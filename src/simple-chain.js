@@ -20,6 +20,7 @@ const chainMaker = {
       (position ^ 0) !== position ||
       position > this.getLength()
     ) {
+      this.chain.length = 0;
       throw new Error("THROWN");
     }
     this.chain = this.chain.filter((item, index) => index + 1 !== position);
